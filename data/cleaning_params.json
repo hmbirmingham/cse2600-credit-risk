@@ -1,0 +1,15 @@
+{
+  "income_median": 5400.0,
+  "dependents_median": 0.0,
+  "debtratio_median_reported_income": 0.296055033,
+  "late_medians": {
+    "NumberOfTime30-59DaysPastDueNotWorse": 0.0,
+    "NumberOfTimes90DaysLate": 0.0,
+    "NumberOfTime60-89DaysPastDueNotWorse": 0.0
+  },
+  "caps": {
+    "RevolvingUtilizationOfUnsecuredLines": 1.0932521943000004,
+    "DebtRatio": 647.2249999999985,
+    "MonthlyIncome": 25000.0
+  }
+}
