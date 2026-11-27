@@ -4,9 +4,8 @@ Planning document mapping the five required wiki pages (§3(a) of the project
 guidelines) onto the Give Me Some Credit dataset.
 
 **Dataset:** Kaggle *Give Me Some Credit* (2011). 150,000 labeled borrowers,
-10 predictors, target `SeriousDlqin2yrs`. Data lives in `data/raw/` and is
-git-ignored — the competition rules restrict redistribution, so it stays out
-of the repo. Teammates download it themselves (see below).
+10 predictors, target `SeriousDlqin2yrs`. The CSVs are committed under `data/`,
+so teammates do not need to download anything to work on the project.
 
 **Guiding habit:** no claim without a number or worked example attached. The
 guidelines warn on page 2 that vague AI-generated phrasing such as "complex
@@ -154,24 +153,26 @@ of AUC" beats "our model performed well."
 
 ---
 
-## Repo conventions
+## Repo layout
 
-20% of the wiki grade is "ease of locating pertinent information," so the repo
-mirrors the page order:
+20% of the wiki grade is "ease of locating pertinent information." The repo is
+organized by stage rather than by wiki page, and `README.md` at the root covers
+the evaluation step in plain terms:
 
 ```
-notebooks/01_eda.ipynb
-notebooks/02_preprocessing.ipynb
-notebooks/03_models.ipynb
-notebooks/04_results.ipynb
-reports/figures/          # every figure linked from its matching wiki page
-docs/wiki-outline.md      # this file
+data/        raw Kaggle file, cleaned train/test split, cleaning script + params
+notebook/    exploratory and cleaning notebooks
+src/         evaluate.py and its checks
+outputs/     model predictions, one csv per model
+figures/     generated figures, created on the first evaluation run
+docs/        this file
 ```
 
 ## Getting the data
 
-The CSVs are not in the repo. Each teammate needs a Kaggle account, must
-accept the competition rules, then:
+The CSVs are already in `data/`, so nothing needs downloading for day-to-day
+work. To pull a fresh copy of the original archive you need a Kaggle account and
+must accept the competition rules first:
 
 ```bash
 pip install kaggle          # or: uv tool install kaggle
