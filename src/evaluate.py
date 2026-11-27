@@ -194,20 +194,23 @@ def plot_pr(results, outdir=FIGDIR):
 def plot_confusion(y_true, y_prob, threshold=THRESHOLD, name="model", outdir=FIGDIR):
     tn, fp, fn, tp = confusion_counts(y_true, y_prob, threshold)
     matrix = np.array([[tn, fp], [fn, tp]])
-    total = matrix.sum()
+    # Shade by share of each actual class, not by raw count. Non-defaulters are
+    # about 93% of the rows, so shading by count puts three cells at the same
+    # near-white and the colour carries nothing.
+    row_share = matrix / matrix.sum(axis=1, keepdims=True)
 
     fig, ax = plt.subplots(figsize=FIGSIZE_SQUARE)
-    ax.imshow(matrix, cmap="Blues")
+    ax.imshow(row_share, cmap="Blues", vmin=0, vmax=1)
     for i in range(2):
         for j in range(2):
-            count = matrix[i, j]
-            text_color = "white" if count > matrix.max() / 2 else "black"
-            ax.text(j, i, f"{count:,}\n{count / total:.2%}",
+            text_color = "white" if row_share[i, j] > 0.5 else "black"
+            ax.text(j, i, f"{matrix[i, j]:,}\n{row_share[i, j]:.1%}",
                     ha="center", va="center", color=text_color)
     ax.set_xticks([0, 1])
     ax.set_xticklabels(["Predicted 0", "Predicted 1"])
     ax.set_yticks([0, 1])
     ax.set_yticklabels(["Actual 0", "Actual 1"])
+    ax.set_xlabel("Shading and percentages are shares of each actual class")
     ax.set_title(f"{name}  -  confusion matrix at threshold {threshold:g}")
     save_figure(fig, f"confusion_{name}.png", outdir)
     return fig
