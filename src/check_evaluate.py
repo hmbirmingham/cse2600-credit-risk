@@ -75,6 +75,12 @@ def check_confusion_definitions():
 
     # A higher threshold must turn the two false positives into true negatives
     assert evaluate.confusion_counts(y_true, y_prob, 0.75) == (7, 0, 1, 2)
+
+    # Each row must account for a whole actual class, which is what the
+    # confusion plot divides by when it shades
+    tn, fp, fn, tp = counts
+    assert tn + fp == y_true.count(0), "row 0 should hold every actual negative"
+    assert fn + tp == y_true.count(1), "row 1 should hold every actual positive"
     print(f"3. hand-checked cm    FPR {m['FPR']:.4f}, FNR {m['FNR']:.4f}, "
           f"misclassification {m['Misclassification']:.4f}")
 
